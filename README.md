@@ -4,10 +4,12 @@
 ```bash
 git clone https://gitlab.com/poulet_t_Etna_Projects/Etna1/pli-api.git
 cd pli-api/
-npm install
 # After having followed the requirements part
-npm start
+docker-compose up --build
 ```
+
+>- [API URL](localhost:8080)
+>- [API Doc URL](localhost:80)
 
 ## Requirements
 
@@ -36,3 +38,4 @@ You can find the required values [Here](https://console.firebase.google.com/proj
 
 - [Firebase-admin](https://firebase.google.com/docs/admin/setup)
 - [Firebase](https://firebase.google.com/docs/web/setup)
+- [Swagger-ui](https://github.com/swagger-api/swagger-ui)
