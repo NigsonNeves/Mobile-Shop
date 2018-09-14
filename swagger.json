@@ -1,5 +1,6 @@
 {
   "swagger": "2.0",
+  "host" : "localhost:8080",
   "info": {
     "title": "Simple API overview",
     "version": "v2"
