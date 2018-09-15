@@ -1,0 +1,43 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: PLI API Documentation
+host: localhost:8080
+schemes:
+  - http
+paths:
+  /users/new:
+    post:
+      tags:
+        - pet
+      summary: Create a new user
+      description: 'Used to register a new user'
+      operationId: createNewUser
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: "email"
+          in: formData
+          description: Email address of the new user
+          required: true
+          type: "string"
+        - name: password
+          in: formData
+          description: Password of the new user
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: User successfully created
+          example: { status: 200, message: "Successfully created", data: { email: "example@gmail.com"} }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Bad request", data: null }
+        409:
+          description: "Email already in use"
+          example: { status: 409, message: "Some error message", data: null }
+        501:
+          description: "Email/password user creation not activated"
+          example: { status: 501, message: "Some error message", data: null }

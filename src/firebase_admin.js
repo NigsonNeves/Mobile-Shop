@@ -1,6 +1,14 @@
 module.exports = {
+  credentials_path: '../firebase_credentials.json',
+
+  init: function(firebase_admin) {
+    const config = this.load_config(firebase_admin)
+
+    firebase_admin.initializeApp(config)
+  },
+
   load_config: function(firebase_admin) {
-    var admin_config = require('../firebase_credentials.json')
+    const admin_config = require(this.credentials_path)
 
     return ({
       credential:   firebase_admin.credential.cert(admin_config),
