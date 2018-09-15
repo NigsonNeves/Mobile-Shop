@@ -1,2 +1,2 @@
-url: "/code/swagger.json"
+url: "/code/swagger.yaml"
 dom_id: '#swagger-ui'

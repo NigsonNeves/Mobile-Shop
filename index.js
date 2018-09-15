@@ -12,10 +12,6 @@ require('./src/firebase.js').init(firebase)
 const j_response      = require('./src/json_response.js')
 const firebase_errors = require('./src/firebase_error.js')
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
-
 app.post('/users/new', function(req, res) {
   const email   = req.body.email
   const passwd  = req.body.password
@@ -24,7 +20,7 @@ app.post('/users/new', function(req, res) {
 
   firebase.auth().createUserWithEmailAndPassword(email, passwd)
   .then(function(user) {
-    const content = j_response.format(200, "Successfully created", [email, passwd])
+    const content = j_response.format(200, "Successfully created", {email: email})
 
     res.status(content.status).send(content)
   })
