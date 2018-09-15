@@ -1,4 +1,10 @@
 module.exports = {
+  init: function(firebase) {
+    const config = this.load_config()
+
+    firebase.initializeApp(config)
+  },
+
   load_config: function() {
     return ({
       apiKey:             process.env.FIREBASE_API_KEY,
