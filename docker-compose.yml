@@ -5,8 +5,8 @@ services:
     build:
       context: .
     volumes:
-      - ".:/code"
-      - "node_modules:/code/node_modules"
+      - .:/code
+      - node_modules:/code/node_modules
     command: "npm start"
     ports:
       - "8080:3000"
@@ -19,6 +19,6 @@ services:
     environment:
       SWAGGER_JSON: /code/swagger.json
     volumes:
-      - "./:/code"
+      - .:/code
 volumes:
   node_modules:
