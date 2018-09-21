@@ -75,3 +75,36 @@ paths:
         404:
           description: "User not found"
           example: { status: 404, message: "Some error message", data: null }
+  /shops:
+    get:
+      summary: Get a shop list
+      description: 'Used to get a shop list'
+      operationId: shopsList
+      produces:
+        - application/json
+      parameters:
+        - name: orderBy
+          in: url
+          description: Field to order by
+          required: false
+          type: "string"
+        - name: limit
+          in: url
+          description: Limit the number of returned shops
+          required: false
+          type: "integer"
+        - name: order
+          in: url
+          description: Sort by ascending or descending value
+          required: false
+          type: "string"
+          examples:
+            - "asc"
+            - "desc"
+      responses:
+        200:
+          description: "User successfully logged in"
+          example: { status: 200, message: "Successfully logged in", data: { "shop_id": { "id": { "Shop object" } }, "other_shop_id": {"..."} } }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Some error message", data: null }
