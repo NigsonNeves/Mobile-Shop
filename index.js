@@ -12,3 +12,4 @@ require('./src/firebase.js').init(firebase)
 
 require('./src/routes/users.js')(app, firebase)
 require('./src/routes/sessions.js')(app, firebase)
+require('./src/routes/shops.js')(app, firebase_admin)
