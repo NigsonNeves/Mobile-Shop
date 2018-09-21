@@ -8,8 +8,6 @@ schemes:
 paths:
   /users/new:
     post:
-      tags:
-        - pet
       summary: Create a new user
       description: 'Used to register a new user'
       operationId: createNewUser
@@ -41,3 +39,39 @@ paths:
         501:
           description: "Email/password user creation not activated"
           example: { status: 501, message: "Some error message", data: null }
+  /login:
+    post:
+      summary: Connect an user
+      description: 'Used to connect an user'
+      operationId: loginUser
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: "email"
+          in: formData
+          description: Email address of the user
+          required: true
+          type: "string"
+        - name: password
+          in: formData
+          description: Password of the user
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "User successfully logged in"
+          example: { status: 200, message: "Successfully logged in", data: { "infos": { "user": { "uid": "2JdFQbUDBEhNN9PFtcb7CHcx2qy2", "displayName": null, "photoURL": null, "email": "poulet_t@etna-alternance.net", "emailVerified": false, "phoneNumber": null, "isAnonymous": false, "providerData": [ { "uid": "poulet_t@etna-alternance.net", "displayName": null, "photoURL": null, "email": "poulet_t@etna-alternance.net", "phoneNumber": null, "providerId": "password" }], "apiKey": "AIzaSyC9UTXwsOHrJkolyA8lo-bnjYJnWhI-VSw", "appName": "[DEFAULT]", "authDomain": "etna-pli-c4463.firebaseapp.com", "stsTokenManager": { "apiKey": "AIzaSyC9UTXwsOHrJkolyA8lo-bnjYJnWhI-VSw", "refreshToken": "", "accessToken": "", "expirationTime": 1537519249370 }, "redirectEventId": null, "lastLoginAt": "1537515643000", "createdAt": "1537515643000" }, "credential": null, "additionalUserInfo": { "providerId": "password", "isNewUser": false }, "operationType": "signIn"} } }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Bad request", data: null }
+        401:
+          description: "Wrong password"
+          example: { status: 401, message: "Some error message", data: null }
+        403:
+          description: "Email already in use"
+          example: { status: 403, message: "Some error message", data: null }
+        404:
+          description: "User not found"
+          example: { status: 404, message: "Some error message", data: null }
