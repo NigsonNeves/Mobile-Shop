@@ -26,6 +26,16 @@ paths:
           description: Password of the new user
           required: true
           type: "string"
+        - name: "first_name"
+          in: formData
+          description: First name of the new user
+          required: false
+          type: "string"
+        - name: "name"
+          in: formData
+          description: Name of the new user
+          required: false
+          type: "string"
       responses:
         200:
           description: User successfully created
