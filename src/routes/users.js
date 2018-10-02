@@ -2,7 +2,7 @@ const j_response      = require('../json_response.js')
 const firebase_errors = require('../firebase_error.js')
 const User            = require('../models/User.ts')
 
-module.exports = function(app, firebase, firebase_admin) {
+module.exports = function(app, firebase) {
   app.post('/users/new', function(req, res) {
     const email       = req.body.email
     const passwd      = req.body.password
@@ -19,7 +19,8 @@ module.exports = function(app, firebase, firebase_admin) {
       if (first_name) new_user.set_first_name(first_name)
       if (name) new_user.set_name(name)
 
-      firebase_admin.firestore().collection('users').doc().set(new_user.prepare());
+      new_user.get_collection().doc().set(new_user.prepare())
+
       res.status(content.status).send(content)
     })
     .catch(function(error) {

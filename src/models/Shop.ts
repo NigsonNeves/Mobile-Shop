@@ -3,13 +3,15 @@ import { Model } from './Model'
 enum ShopType { bakery }
 
 class Shop extends Model {
-  private name:         string
-  private picture_url:  string
-  private position:     [number, number]
-  private types:        Array<ShopType>
+  public static collection_name = 'shops'
+  private       name:         string
+  private       picture_url:  string
+  private       position:     [number, number]
+  private       types:        Array<ShopType>
 
   constructor(name: string, types: Array<ShopType>) {
     super()
+    super.set_collection(Shop.collection_name)
 
     this.name         = name
     this.picture_url  = null

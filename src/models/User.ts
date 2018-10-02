@@ -3,14 +3,16 @@ import { Model } from './Model'
 enum UserRole { merchant, customer }
 
 class User extends Model {
-  private uid:         string
-  private first_name:  string
-  private name:        string
-  private picture_url: string
-  private role:        UserRole
+  public static collection_name = 'users'
+  private       uid:          string
+  private       first_name:   string
+  private       name:         string
+  private       picture_url:  string
+  private       role:         UserRole
 
   constructor(uid: string) {
     super()
+    super.set_collection(User.collection_name)
 
     this.uid          = uid
     this.first_name   = null

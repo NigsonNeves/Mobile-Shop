@@ -1,13 +1,15 @@
 import { Model } from './Model'
 
 class Product extends Model {
-  private name:     string
-  private pictures: Array<string>
-  private shop_id:  string
-  private stock:    number
+  public static collection_name = 'products'
+  private       name:     string
+  private       pictures: Array<string>
+  private       shop_id:  string
+  private       stock:    number
 
   constructor(name: string, shop_id: string) {
     super()
+    super.set_collection(Product.collection_name)
 
     this.name = name
     this.pictures = null

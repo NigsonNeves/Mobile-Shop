@@ -42,4 +42,3 @@ You can find the required values [Here](https://console.firebase.google.com/proj
 - [Swagger editor](https://editor.swagger.io/)
 - [TypeScript](https://www.typescriptlang.org/index.html)
 - [ts-node](https://github.com/TypeStrong/ts-node)
-- [ACL](https://www.npmjs.com/package/acl) / [ACL-firebase](https://www.npmjs.com/package/acl-firebase)
