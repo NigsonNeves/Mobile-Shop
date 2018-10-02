@@ -1,6 +1,6 @@
 const j_response      = require('../json_response.js')
 const firebase_errors = require('../firebase_error.js')
-const User = require('../models/User.js')
+const User            = require('../models/User.ts')
 
 module.exports = function(app, firebase, firebase_admin) {
   app.post('/users/new', function(req, res) {
