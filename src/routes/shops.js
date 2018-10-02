@@ -1,9 +1,9 @@
 const j_response      = require('../json_response.js')
 const firebase_errors = require('../firebase_error.js')
+const Shop            = require('../models/Shop.ts')
 
 module.exports = function(app, firebase_admin) {
-  const db          = firebase_admin.firestore()
-  const collection  = db.collection('shops')
+  const collection = firebase_admin.firestore().collection(Shop.collection_name)
 
   app.get('/shops', function(req, res) {
     const order_by  = req.query.orderBy

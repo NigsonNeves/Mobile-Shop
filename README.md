@@ -40,3 +40,5 @@ You can find the required values [Here](https://console.firebase.google.com/proj
 - [Firebase](https://firebase.google.com/docs/web/setup)
 - [Swagger-ui](https://github.com/swagger-api/swagger-ui)
 - [Swagger editor](https://editor.swagger.io/)
+- [TypeScript](https://www.typescriptlang.org/index.html)
+- [ts-node](https://github.com/TypeStrong/ts-node)
