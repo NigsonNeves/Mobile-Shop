@@ -118,3 +118,39 @@ paths:
         400:
           description: "Bad request"
           example: { status: 400, message: "Some error message", data: null }
+    post:
+      summary: Create a new shop
+      description: 'Used to create a new shop'
+      operationId: newShop
+      produces:
+        - application/json
+      parameters:
+        - name: name
+          in: formData
+          description: Shop name
+          required: true
+          type: "string"
+        - name: types
+          in: formData
+          description: type of the shop
+          required: true
+          type: "integer"
+          example:
+            - "0"
+        - name: latitude
+          in: formData
+          description: Shop latitude
+          required: true
+          type: "float"
+        - name: longitude
+          in: formData
+          description: Shop longitude
+          required: true
+          type: "float"
+      responses:
+        200:
+          description: "Shop successfully created"
+          example: { status: 200, message: "Shop successfully created", data: { "id": "zy274buxqo", "name": "New shop", "picture_url": null, "latitude": "0.9876564", "longitude": "0.54324567", "types": ["bakery"] } }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Some error message", data: null }
