@@ -1,6 +1,6 @@
 import { Model } from './Model'
 
-class Product extends Model {
+export class Product extends Model {
   public static collection_name = 'products'
   private       name:     string
   private       pictures: Array<string>
