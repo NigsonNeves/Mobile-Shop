@@ -35,7 +35,7 @@ module.exports = function(app, firebase) {
           })
         })
         .catch(function(err) {
-          res.status(500).send(j_response.format(500, 'Error', null))
+          res.status(500).send(j_response.generic(500))
         })
       }
     })
