@@ -154,3 +154,38 @@ paths:
         400:
           description: "Bad request"
           example: { status: 400, message: "Some error message", data: null }
+  /shops/{shop_id}/orders:
+    post:
+      summary: Create a new order
+      description: 'Used to create a new order'
+      operationId: newOrder
+      produces:
+        - application/json
+      parameters:
+        - name: shop_id
+          in: path
+          description: Id of the shop where the order was passed
+          required: true
+          type: string
+        - name: user
+          in: body
+          description: Id of the user who passed the order
+          required: true
+          type: string
+          example: uemtuvtcz1
+        - name: products
+          in: body
+          description: Sort by ascending or descending value
+          required: false
+          type: json
+          example: ["product_id_1", "product_id_2"]
+      responses:
+        200:
+          description: "User successfully logged in"
+          example: { status: 200, message: "Order successfully created", data: { "id": "x8j8kjrn7m", "user": "uemtuvtcz1", "shop": "1o3ui7yat4", "products": [ "uemtuvtcz1", "uemtuvtcz1" ], "price": 25.38 } }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Some error message", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
