@@ -37,24 +37,33 @@ module.exports = function(app) {
   })
 
   app.post('/shops/:shop_id/products', function(req, res) {
-    const name            = req.body.name
-    const pictures        = req.body.pictures
-    const shop_id         = req.params.shop_id
-    const stock           = req.body.stock
-    const price           = req.body.price
-    var new_product       = new Product(name, shop_id)
+    const name      = req.body.name
+    const pictures  = req.body.pictures
+    const shop_id   = req.params.shop_id
+    const stock     = req.body.stock
+    const price     = req.body.price
+    const new_shop  = new Shop(null, null)
+    var new_product = new Product(name, shop_id)
 
     if (!name || !pictures || !stock || !price)
       res.status(400).send(j_response.generic(400))
 
-    new_product.set_pictures([pictures])
-    new_product.set_stock(stock)
-    new_product.set_price(price)
-    new_product.get_collection().doc().set(new_product.prepare())
-    .then(function(doc) {
-      res.status(200).send(j_response.format(200, 'Product successfully created', new_product.prepare()))
-    }).catch(function(error) {
-      console.log(error)
+    new_shop.get_by('id', shop_id).then((doc) => {
+      if (doc == null) {
+        res.status(404).send(j_response.format(404, 'Shop not found', null))
+      } else {
+        new_product.set_pictures([pictures])
+        new_product.set_stock(stock)
+        new_product.set_price(price)
+        new_product.get_collection().doc().set(new_product.prepare())
+        .then(function(doc) {
+          res.status(200).send(j_response.format(200, 'Product successfully created', new_product.prepare()))
+        }).catch(function(error) {
+          res.status(500).send(j_response.generic(500))
+        })
+      }
+    })
+    .catch((err) => {
       res.status(500).send(j_response.generic(500))
     })
   })
