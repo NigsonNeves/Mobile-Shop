@@ -10,7 +10,7 @@ export class Model {
   }
 
   get_id() { return this.id }
-  get_collection(name: string) { return this.collection }
+  get_collection() { return this.collection }
 
   set_id(id: string) { this.id = id }
   set_collection(collection: string) { this.collection = firebase_admin.firestore().collection(collection) }
