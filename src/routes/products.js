@@ -41,18 +41,21 @@ module.exports = function(app) {
     const pictures        = req.body.pictures
     const shop_id         = req.params.shop_id
     const stock           = req.body.stock
+    const price           = req.body.price
     var new_product       = new Product(name, shop_id)
 
-    if (!name || !pictures || !stock)
+    if (!name || !pictures || !stock || !price)
       res.status(400).send(j_response.generic(400))
 
-    new_product.set_pictures(pictures)
+    new_product.set_pictures([pictures])
     new_product.set_stock(stock)
+    new_product.set_price(price)
     new_product.get_collection().doc().set(new_product.prepare())
     .then(function(doc) {
-      res.status(200).send(j_response.format(200, 'Shop successfully created', new_shop.prepare()))
+      res.status(200).send(j_response.format(200, 'Product successfully created', new_product.prepare()))
     }).catch(function(error) {
-      res.status(400).send(j_response.generic(400))
+      console.log(error)
+      res.status(500).send(j_response.generic(500))
     })
   })
 }
