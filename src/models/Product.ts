@@ -50,44 +50,6 @@ export class Product extends Model {
   set_pictures(pictures: Array<string>) { this.pictures = pictures }
   set_shop_id(id: string)               { this.shop_id = id }
   set_stock(stock: number)              { this.stock = stock }
-
-  get_by_id(id: string) {
-    const collection = super.get_collection()
-
-    return new Promise((resolve, reject) => {
-      collection.where('id', '==', id).get()
-      .then((snapshot) => {
-        if (snapshot.empty) resolve(null)
-
-        snapshot.forEach(function(doc) {
-          doc.data() ? resolve(doc.data()) : resolve(null)
-        })
-      })
-      .catch((err) => {
-        reject(err)
-      })
-    })
-  }
-
-  get_by_ids(searched_ids: Array<string>) {
-    var instance = this
-
-    return new Promise(async function(resolve, reject) {
-      var found_products = []
-
-      for (let searched_id of searched_ids) {
-        await instance.get_by_id(searched_id)
-        .then((doc) => {
-          if (doc != null) found_products.push(doc)
-        })
-        .catch((err) => {
-          reject(err)
-        })
-      }
-
-      resolve(found_products)
-    })
-  }
 }
 
 module.exports = Product;

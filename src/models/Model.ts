@@ -14,4 +14,42 @@ export class Model {
 
   set_id(id: string) { this.id = id }
   set_collection(collection: string) { this.collection = firebase_admin.firestore().collection(collection) }
+
+  get_by(field: string, value: string) {
+    const collection = this.get_collection()
+
+    return new Promise((resolve, reject) => {
+      collection.where(field, '==', value).get()
+      .then((snapshot) => {
+        if (snapshot.empty) resolve(null)
+
+        snapshot.forEach(function(doc) {
+          doc.data() ? resolve(doc.data()) : resolve(null)
+        })
+      })
+      .catch((err) => {
+        reject(err)
+      })
+    })
+  }
+
+  get_by_ids(searched_ids: Array<string>) {
+    var instance = this
+
+    return new Promise(async function(resolve, reject) {
+      var found_products = []
+
+      for (let searched_id of searched_ids) {
+        await instance.get_by('id', searched_id)
+        .then((doc) => {
+          if (doc != null) found_products.push(doc)
+        })
+        .catch((err) => {
+          reject(err)
+        })
+      }
+
+      resolve(found_products)
+    })
+  }
 }
