@@ -186,6 +186,9 @@ paths:
         400:
           description: "Bad request"
           example: { status: 400, message: "Some error message", data: null }
+        404:
+          description: "Shop not found"
+          example: { status: 404, message: "Shop not found", data: null }
         500:
           description: "Some error"
           example: { status: 500, message: "Some error message", data: null }
