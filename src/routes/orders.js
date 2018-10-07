@@ -24,11 +24,11 @@ module.exports = function(app, firebase) {
         res.status(404).send(j_response.format(404, 'Shop not found', null))
       } else {
         new_product.get_by_ids(JSON.parse(products))
-        .then(function(docss) {
-          if (docss.length > 0) {
-            new_order.set_products(docss.map(docs => docs.id))
-            new_order.set_price(docss.map(docs => docs.price).reduce(price_reducer))
-            new_order.get_collection().docs().set(new_order.prepare())
+        .then(function(docs) {
+          if (docs.length > 0) {
+            new_order.set_products(docs.map(docs => docs.id))
+            new_order.set_price(docs.map(docs => docs.price).reduce(price_reducer)) 
+            new_order.get_collection().doc().set(new_order.prepare())
             .then(function(result) {
               res.status(200).send(j_response.format(200, 'Order successfully created', new_order.prepare()))
             })
@@ -40,6 +40,7 @@ module.exports = function(app, firebase) {
           }
         })
         .catch(function(err) {
+          console.log(err)
           res.status(500).send(j_response.generic(500))
         })
       }
