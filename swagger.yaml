@@ -154,3 +154,130 @@ paths:
         400:
           description: "Bad request"
           example: { status: 400, message: "Some error message", data: null }
+  /shops/{shop_id}/orders:
+    post:
+      summary: Create a new order
+      description: 'Used to create a new order'
+      operationId: newOrder
+      produces:
+        - application/json
+      parameters:
+        - name: shop_id
+          in: path
+          description: Id of the shop where the order was passed
+          required: true
+          type: string
+        - name: user
+          in: body
+          description: Id of the user who passed the order
+          required: true
+          type: string
+          example: uemtuvtcz1
+        - name: products
+          in: body
+          description: Sort by ascending or descending value
+          required: false
+          type: json
+          example: ["product_id_1", "product_id_2"]
+      responses:
+        200:
+          description: "User successfully logged in"
+          example: { status: 200, message: "Order successfully created", data: { "id": "x8j8kjrn7m", "user": "uemtuvtcz1", "shop": "1o3ui7yat4", "products": [ "uemtuvtcz1", "uemtuvtcz1" ], "price": 25.38 } }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Some error message", data: null }
+        404:
+          description: "Shop not found"
+          example: { status: 404, message: "Shop not found", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
+  /shops/{shop_id}/products:
+    get:
+      summary: Get list of shop products
+      description: 'Used to get shop products list'
+      operationId: getShopProducts
+      produces:
+        - application/json
+      parameters:
+        - name: shop_id
+          in: path
+          description: Id of the shop where we want to list the products
+          required: true
+          type: string
+        - name: order_by
+          in: url
+          description: Product name
+          required: false
+          type: string
+        - name: order
+          in: url
+          description: Sort by ascending or descending value
+          required: false
+          type: string
+          examples:
+            - 'asc'
+            - 'desc'
+        - name: limit
+          in: url
+          description: Number of retured products
+          required: false
+          type: number
+      responses:
+        200:
+          description: "Product successfully created"
+          example: { status: 200, message: "Success", data: [ { "pictures": [ "/url/j/b/beurre" ], "id": "tl74u106eo", "price": "12.87", "stock": "112", "shop_id": "1o3ui7yat4", "name": "Sandwich jambon beurre" } ] }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Some error message", data: null }
+        404:
+          description: "Shop not found"
+          example: { status: 404, message: "Shop XXXX not found", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
+    post:
+      summary: Create a new product
+      description: 'Used to create a new product'
+      operationId: newProduct
+      produces:
+        - application/json
+      parameters:
+        - name: shop_id
+          in: path
+          description: Id of the shop where we want to create the product
+          required: true
+          type: string
+        - name: name
+          in: body
+          description: Product name
+          required: true
+          type: string
+        - name: pictures
+          in: body
+          description: Product picture url
+          required: true
+          type: string
+        - name: stock
+          in: body
+          description: Number of product in stock
+          required: true
+          type: number
+        - name: price
+          in: body
+          description: Product price
+          required: true
+          type: number
+      responses:
+        200:
+          description: "Product successfully created"
+          example: { status: 200, message: "Product successfully created", data: { "id": "tl74u106eo", "name": "Sandwich jambon beurre", "pictures": [ "/url/j/b/beurre" ], "shop_id": "1o3ui7yat4", "stock": "112", "price": "12.87" } }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Some error message", data: null }
+        404:
+          description: "Shop not found"
+          example: { status: 404, message: "Shop not found", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
