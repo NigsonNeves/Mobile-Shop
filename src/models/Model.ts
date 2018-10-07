@@ -46,7 +46,7 @@ export class Model {
       for (let searched_id of searched_ids) {
         await instance.get_by('id', searched_id)
         .then((doc) => {
-          if (doc != null) found_products.push(doc)
+          if (doc != null) found_products.push(doc[0])
         })
         .catch((err) => {
           reject(err)
