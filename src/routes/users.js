@@ -1,6 +1,7 @@
+const { User } = require('../models.js')
+
 const j_response      = require('../json_response.js')
 const firebase_errors = require('../firebase_error.js')
-const User            = require('../models/User.ts')
 
 module.exports = function(app, firebase) {
   app.get('/users/:user_id', function(req, res) {

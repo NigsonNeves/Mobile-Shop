@@ -1,7 +1,7 @@
+const { Shop } = require('../models.js')
+const { ShopType } = require('../enums.js')
+
 const j_response      = require('../json_response.js')
-const firebase_errors = require('../firebase_error.js')
-const Shop            = require('../models/Shop.ts')
-const ShopType        = require('../enums/ShopType.ts')
 
 module.exports = function(app, firebase_admin) {
   const collection = firebase_admin.firestore().collection(Shop.collection_name)
