@@ -19,13 +19,17 @@ export class Model {
     const collection = this.get_collection()
 
     return new Promise((resolve, reject) => {
+      var found_objects = []
+ 
       collection.where(field, '==', value).get()
       .then((snapshot) => {
         if (snapshot.empty) resolve(null)
 
         snapshot.forEach(function(doc) {
-          doc.data() ? resolve(doc.data()) : resolve(null)
+          doc.data() ? found_objects.push(doc.data()) : null
         })
+
+        resolve(found_objects)
       })
       .catch((err) => {
         reject(err)
@@ -42,7 +46,7 @@ export class Model {
       for (let searched_id of searched_ids) {
         await instance.get_by('id', searched_id)
         .then((doc) => {
-          if (doc != null) found_products.push(doc)
+          if (doc != null) found_products.push(doc[0])
         })
         .catch((err) => {
           reject(err)
