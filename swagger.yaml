@@ -362,7 +362,7 @@ paths:
           example: { status: 500, message: "Some error message", data: null }
   /users/{user_id}:
     get:
-      summary: Get a user thanks to his Id
+      summary: Get an user thanks to his Id
       description: 'Used to get a user'
       operationId: getUser
       produces:
@@ -370,27 +370,9 @@ paths:
       parameters:
         - name: user_id
           in: path
-          description: Id of the user we want to list
+          description: Id of the requested user
           required: true
           type: string
-        - name: order_by
-          in: url
-          description: Product name
-          required: false
-          type: string
-        - name: order
-          in: url
-          description: Sort by ascending or descending value
-          required: false
-          type: string
-          examples:
-            - 'asc'
-            - 'desc'
-        - name: limit
-          in: url
-          description: Number of retured products
-          required: false
-          type: number
       responses:
         200:
           description: "User Exist"
