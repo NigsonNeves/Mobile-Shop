@@ -5,9 +5,16 @@ info:
 host: localhost:8080
 schemes:
   - http
+tags:
+  - name: Users
+  - name: Shops
+  - name: Products
+  - name: Orders
 paths:
   /login:
     post:
+      tags:
+        - Users
       summary: Connect an user
       description: 'Used to connect an user'
       operationId: loginUser
@@ -42,8 +49,39 @@ paths:
         404:
           description: "User not found"
           example: { status: 404, message: "Some error message", data: null }
+
+  /orders/{order_id}:
+    get:
+      tags:
+        - Orders
+      summary: Get order details
+      description: 'Used to get details for an order'
+      operationId: getOrderDetails
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: Id of the order
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          example: { status: 200, message: "Success", data: { "id": "1no9f8o2zx", "user": null, "shop": "1o3ui7yat4", "products": [ { "shop_id": "1o3ui7yat4", "name": "Couscous Congolais", "pictures": [ "/url/1", "/url/2" ], "id": "uemtuvtcz2", "price": 99.99, "stock": 79 }, { "shop_id": "1o3ui7yat4", "name": "Couscous Congolais", "pictures": [ "/url/1", "/url/2" ], "id": "uemtuvtcz2", "price": 99.99, "stock": 79 } ], "price": 199.98 } }
+        404:
+          description: "Order not found"
+          example: { status: 404, message: "Order not found", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error", data: null }
+
   /users/new:
     post:
+      tags:
+        - Users
       summary: Create a new user
       description: 'Used to register a new user'
       operationId: createNewUser
@@ -85,8 +123,11 @@ paths:
         501:
           description: "Email/password user creation not activated"
           example: { status: 501, message: "Some error message", data: null }
+
   /users/{user_id}/orders:
     get:
+      tags:
+        - Orders
       summary: Get list of user orders
       description: 'Used to get user orders listing'
       operationId: getUserOrders
@@ -108,8 +149,11 @@ paths:
         500:
           description: "Some error"
           example: { status: 500, message: "Some error message", data: null }
+
   /shops:
     get:
+      tags:
+        - Shops
       summary: Get a shop list
       description: 'Used to get a shop list'
       operationId: shopsList
@@ -141,7 +185,10 @@ paths:
         400:
           description: "Bad request"
           example: { status: 400, message: "Some error message", data: null }
+  
     post:
+      tags:
+        - Shops
       summary: Create a new shop
       description: 'Used to create a new shop'
       operationId: newShop
@@ -177,8 +224,11 @@ paths:
         400:
           description: "Bad request"
           example: { status: 400, message: "Some error message", data: null }
+
   /shops/{shop_id}/orders:
     post:
+      tags:
+        - Orders
       summary: Create a new order
       description: 'Used to create a new order'
       operationId: newOrder
@@ -215,8 +265,11 @@ paths:
         500:
           description: "Some error"
           example: { status: 500, message: "Some error message", data: null }
+
   /shops/{shop_id}/products:
     get:
+      tags:
+        - Products
       summary: Get list of shop products
       description: 'Used to get shop products list'
       operationId: getShopProducts
@@ -259,7 +312,10 @@ paths:
         500:
           description: "Some error"
           example: { status: 500, message: "Some error message", data: null }
+
     post:
+      tags:
+        - Products
       summary: Create a new product
       description: 'Used to create a new product'
       operationId: newProduct

@@ -67,4 +67,32 @@ module.exports = function(app, firebase) {
       res.status(500).send(j_response.generic(500))
     })
   })
+
+  app.get('/orders/:order_id', function(req, res) {
+    const order_id  = req.params.order_id
+    var new_order   = new Order(null, order_id)
+    var new_product = new Product(null, null)
+
+    new_order.get_by('id', order_id).then((docs) => {
+      if (docs != null) {
+        new_order.set_id(docs[0].id)
+        new_order.set_shop(docs[0].shop)
+        new_order.set_price(docs[0].price)
+
+        new_product.get_by_ids(docs[0].products).then((docs) => {
+          new_order.set_products(docs)
+
+          res.status(200).send(j_response.format(200, 'Success', new_order.prepare()))
+        })
+        .catch((err) => {
+          res.status(500).send(j_response.generic(500))
+        })
+      } else {
+        res.status(404).send(j_response.format(404, 'Order not found', null))
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(j_response.generic(500))
+    })
+  })
 }
