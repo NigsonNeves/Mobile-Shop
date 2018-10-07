@@ -3,6 +3,32 @@ const firebase_errors = require('../firebase_error.js')
 const User            = require('../models/User.ts')
 
 module.exports = function(app, firebase) {
+  app.get('/users/:user_id', function(req, res) {
+    const order_by  = req.query.orderBy
+    const order     = req.query.order || 'asc'
+    const limit     = req.query.limit
+    const id_user   = req.params.user_id
+    const new_user  = new User(null)
+    var query       = new_user.get_collection()
+    var datas       = []
+
+    if (!id_user) res.status(400).send(j_response.generic(400))
+    if (order_by) query = query.orderBy(order_by, order)
+    if (limit)    query = query.limit(parseInt(limit))
+
+    query.where('uid', '==', id_user).get().then(function(snapshot) {
+      if (!snapshot.empty) {
+        snapshot.forEach((doc) => { datas.push(doc.data()) })
+        res.status(200).send(j_response.format(200, 'Success', datas))
+      }else{
+        res.status(404).send(j_response.format(404, `User ${id_user} not found`, null))
+      }
+    }).catch(function(err) {
+      res.status(500).send(j_response.generic(500))
+      console.log(err)
+    })
+  })
+
   app.post('/users/new', function(req, res) {
     const email       = req.body.email
     const passwd      = req.body.password
