@@ -362,6 +362,8 @@ paths:
           example: { status: 500, message: "Some error message", data: null }
   /users/{user_id}:
     get:
+      tags:
+        - Users
       summary: Get an user thanks to his Id
       description: 'Used to get a user'
       operationId: getUser
