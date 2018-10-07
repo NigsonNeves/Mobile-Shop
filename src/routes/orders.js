@@ -40,7 +40,6 @@ module.exports = function(app, firebase) {
           }
         })
         .catch(function(err) {
-          console.log(err)
           res.status(500).send(j_response.generic(500))
         })
       }
@@ -55,11 +54,9 @@ module.exports = function(app, firebase) {
     new_user.get_by('id', user_id).then((docs) => {
       if (docs != null) {
         new_order.get_by('user', user_id).then((docs) => {
-          console.log(docs)
           res.status(200).send(j_response.format(200, 'Success', docs))
         })
         .catch((err) => {
-          console.log(err)
           res.status(500).send(j_response.generic(500))
         })
       } else {
@@ -67,7 +64,6 @@ module.exports = function(app, firebase) {
       }
     })
     .catch((err) => {
-      console.log(err)
       res.status(500).send(j_response.generic(500))
     })
   })
