@@ -425,24 +425,6 @@ paths:
       parameters:
         - name: user_id
           in: path
-          description: Id of the requested user
-          required: true
-          type: string
-        - name: name
-          in: body
-          description: User name
-          required: true
-          type: string
-        - name: first name
-          in: body
-          description: User first name
-          required: true
-          type: string
-        - name: picture_url
-          in: body
-          description: Picture url
-          required: true
-          type: string
       responses:
         200:
           description: "User Exist"
