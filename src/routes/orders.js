@@ -1,9 +1,6 @@
+const { Shop, User, Order, Product } = require('../models.js')
+
 const j_response      = require('../json_response.js')
-const firebase_errors = require('../firebase_error.js')
-const Shop            = require('../models/Shop.ts')
-const User            = require('../models/User.ts')
-const Order           = require('../models/Order.ts')
-const Product         = require('../models/Product.ts')
 
 module.exports = function(app, firebase) {
   app.post('/shops/:shop_id/orders', function(req, res) {

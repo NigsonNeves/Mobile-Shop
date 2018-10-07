@@ -1,7 +1,6 @@
+const { Shop, Product } = require('../models.js')
+
 const j_response      = require('../json_response.js')
-const firebase_errors = require('../firebase_error.js')
-const Product         = require('../models/Product.ts')
-const Shop            = require('../models/Shop.ts')
 
 module.exports = function(app) {
   app.get('/shops/:shop_id/products', function(req, res) {
