@@ -3,6 +3,24 @@ const firebase_errors = require('../firebase_error.js')
 const User            = require('../models/User.ts')
 
 module.exports = function(app, firebase) {
+  app.get('/users/:user_id', function(req, res) {
+    const id_user   = req.params.user_id
+    const new_user  = new User(null)
+
+    if (!id_user) res.status(400).send(j_response.generic(400))
+
+    new_user.get_by('id', id_user).then(function(docs) {
+      if (docs != null) {
+        delete docs.uid
+        res.status(200).send(j_response.format(200, 'Success', docs))
+      }else{
+        res.status(404).send(j_response.format(404, `User ${id_user} not found`, null))
+      }
+    }).catch(function(err) {
+      res.status(500).send(j_response.generic(500))
+    })
+  })
+
   app.post('/users/new', function(req, res) {
     const email       = req.body.email
     const passwd      = req.body.password

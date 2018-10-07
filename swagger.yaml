@@ -360,3 +360,31 @@ paths:
         500:
           description: "Some error"
           example: { status: 500, message: "Some error message", data: null }
+  /users/{user_id}:
+    get:
+      tags:
+        - Users
+      summary: Get an user thanks to his Id
+      description: 'Used to get a user'
+      operationId: getUser
+      produces:
+        - application/json
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of the requested user
+          required: true
+          type: string
+      responses:
+        200:
+          description: "User Exist"
+          example: { status: 200, message: "Success", data: [ { "first_name": "Rachid", "id": "tl74u106eo", "name": "Soussi", "picture_url": "/url/2", "role": "Marchand", "uid": "dsfgjydsfkvj" } ] }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Some error message", data: null }
+        404:
+          description: "User not found"
+          example: { status: 404, message: "User XXXX not found", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
