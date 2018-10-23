@@ -49,4 +49,32 @@ module.exports = function(app, firebase) {
       res.status(error_code).send(body)
     })
   })
+
+  app.patch('/users/:user_id', function(req, res) {
+    const first_name  = req.body.first_name
+    const name        = req.body.name
+    const picture_url = req.body.picture_url
+    const id_user   = req.params.user_id
+
+    const new_user  = new User(null)
+    var query       = new_user.get_collection()
+
+    new_user.get_by('id', id_user).then((docs) => {
+      if (docs == null){
+        res.status(404).send(j_response.format(404, `User ${id_user} not found`, null))
+      }else{
+        if (first_name) new_user.set_first_name(first_name)
+        if (name) new_user.set_name(name)
+        if (picture_url) new_user.set_picture_url(picture_url)
+
+        new_user.set_id(docs[0].id)
+        new_user.set_uid(docs[0].uid)
+        query.doc(docs[1]).update(new_user.prepare());
+        res.status(200).send(j_response.format(200, 'User successfully updated', new_user.prepare()))
+      }
+    }).catch((err) => {
+      res.status(500).send(j_response.generic(500))
+      console.log(err)
+    })
+  })
 }

@@ -26,7 +26,7 @@ export class Model {
         if (snapshot.empty) resolve(null)
 
         snapshot.forEach(function(doc) {
-          doc.data() ? found_objects.push(doc.data()) : null
+          doc.data() ? found_objects.push(doc.data(),doc.id) : null
         })
 
         resolve(found_objects)
