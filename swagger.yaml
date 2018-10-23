@@ -428,6 +428,48 @@ paths:
           description: Id of the requested user
           required: true
           type: string
+        - name: name
+          in: body
+          description: User name
+          required: true
+          type: string
+        - name: first name
+          in: body
+          description: User first name
+          required: true
+          type: string
+        - name: picture_url
+          in: body
+          description: Picture url
+          required: true
+          type: string
+      responses:
+        200:
+          description: "User Exist"
+          example: { status: 200, message: "Success", data: [ { "first_name": "Rachid", "id": "tl74u106eo", "name": "Soussi", "picture_url": "/url/2", "role": "Marchand", "uid": "dsfgjydsfkvj" } ] }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Some error message", data: null }
+        404:
+          description: "User not found"
+          example: { status: 404, message: "User XXXX not found", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
+      patch:
+      tags:
+        - Users
+      summary: Update a user thanks to his Id
+      description: 'Used to update a user'
+      operationId: updateUser
+      produces:
+        - application/json
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of the requested user
+          required: true
+          type: string
       responses:
         200:
           description: "User Exist"
