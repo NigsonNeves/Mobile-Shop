@@ -54,7 +54,8 @@ module.exports = function(app, firebase) {
     const first_name  = req.body.first_name
     const name        = req.body.name
     const picture_url = req.body.picture_url
-    const id_user   = req.params.user_id
+    const email       = req.body.email
+    const id_user     = req.params.user_id
 
     const new_user  = new User(null)
     var query       = new_user.get_collection()
@@ -66,6 +67,7 @@ module.exports = function(app, firebase) {
         if (first_name) new_user.set_first_name(first_name)
         if (name) new_user.set_name(name)
         if (picture_url) new_user.set_picture_url(picture_url)
+        if (email) new_user.set_picture_url(email)
 
         new_user.set_id(docs[0].id)
         new_user.set_uid(docs[0].uid)
