@@ -53,7 +53,7 @@ class User extends Model {
   get_first_name()   { return this.first_name }
   get_name()         { return this.name }
   get_picture_url()  { return this.picture_url }
-  get_email()         { return this.email }
+  get_email()        { return this.email }
   get_role()         { return this.role }
 
   set_uid(uid: string)         { this.uid = uid }

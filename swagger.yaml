@@ -446,17 +446,14 @@ paths:
       responses:
         200:
           description: "User Exist"
-          example: { status: 200, message: "Success", data: [ { "first_name": "Rachid", "id": "tl74u106eo", "name": "Soussi", "picture_url": "/url/2", "role": "Marchand", "uid": "dsfgjydsfkvj" } ] }
-        400:
-          description: "Bad request"
-          example: { status: 400, message: "Some error message", data: null }
+          example: { status: 200, message: "User successfully updated", data: [ { "first_name": "Rachid", "id": "tl74u106eo", "name": "Soussi", "picture_url": "/url/2", "role": "Marchand", "uid": "dsfgjydsfkvj" } ] }
         404:
           description: "User not found"
           example: { status: 404, message: "User XXXX not found", data: null }
         500:
           description: "Some error"
           example: { status: 500, message: "Some error message", data: null }
-      patch:
+    patch:
       tags:
         - Users
       summary: Update a user thanks to his Id
