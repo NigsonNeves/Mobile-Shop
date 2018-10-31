@@ -226,6 +226,33 @@ paths:
           example: { status: 400, message: "Some error message", data: null }
 
   /shops/{shop_id}/orders:
+    get:
+      tags:
+        - Orders
+      summary: Get shop orders
+      description: 'Used to get a list of orders passed in a shop'
+      operationId: getShopOrders
+      produces:
+        - application/json
+      parameters:
+        - name: shop_id
+          in: path
+          description: Id of the shop
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Success"
+          example: { status: 200, message: "Success", data: [ { "price": 99.99, "shop": "1o3ui7yat4", "products": [ "uemtuvtcz2" ], "user": "uemtuvtcz1", "id": "1lrxz9rdp7", "doc_id": "FIPhB37WpmXTr6YzxDx1" } ] }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Some error message", data: null }
+        404:
+          description: "Shop not found"
+          example: { status: 404, message: "Shop not found", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
     post:
       tags:
         - Orders
