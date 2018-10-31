@@ -1,4 +1,5 @@
 const { Shop, Product } = require('../models.js')
+const fs                = require('fs')
 
 const j_response      = require('../json_response.js')
 
@@ -68,27 +69,39 @@ module.exports = function(app, firebase_admin) {
   })
 
   app.post('/products/:product_id/pictures', function(req, res) {
-    var product_id = req.params.product_id
-    var bucket = firebase_admin.storage().bucket();
-    var name = `${Math.random().toString(36).substr(2, 20)}`
-    var path = `products/${name}`
+    var product_id  = req.params.product_id
+    var img         = req.body.base64
+    var extension   = req.body.ext
+    var bucket      = firebase_admin.storage().bucket();
+    var name        = `${Math.random().toString(36).substr(2, 20)}.${extension}`
+    var path        = `products/${name}`
     var new_product = new Product(null, null)
+
+    if (!product_id)  res.status(400).send(j_response.generic(400))
+    if (!img)         res.status(400).send(j_response.generic(400))
+    if (!extension)   res.status(400).send(j_response.generic(400))
 
     new_product.get_by('id', product_id).then((doc) => {
       var product = Product.map(doc[0])
+      var file = bucket.file(path);
 
-      bucket.upload('assets/img.png', { destination: path }).then((snapshot) => {
-        product.add_picture(path)
+      fs.writeFile(`tmp/${name}`, img, { encoding: 'base64' }, function(err) {
+        if (err) {
+          res.status(500).send(j_response.generic(500))
+        } else {
+          bucket.upload(`tmp/${name}`, { destination: path }).then((snapshot) => {
+            product.add_picture(path)
 
-        new_product.get_collection().doc(doc[0].doc_id).set(product.prepare()).then((result) => {
-          res.status(200).send(j_response.format(200, 'Picture successfully added to product', product.prepare()))
-        }).catch((err) => {
-          console.log(err)
-          res.status(422).send(j_response.format(422, "Can't update product", null))
-        })
-      }).catch((err) => {
-        res.status(422).send(j_response.format(422, "Can't upload picture", null))
-      })
+            new_product.get_collection().doc(doc[0].doc_id).set(product.prepare()).then((result) => {
+              res.status(200).send(j_response.format(200, 'Picture successfully added to product', product.prepare()))
+            }).catch((err) => {
+              res.status(422).send(j_response.format(422, "Can't update product", null))
+            })
+          }).catch((err) => {
+            res.status(422).send(j_response.format(422, "Can't upload picture", null))
+          })
+        }
+      });
     }).catch((err) => {
         res.status(404).send(j_response.format(404, 'Product not found', null))
     })

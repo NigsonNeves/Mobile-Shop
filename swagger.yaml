@@ -410,6 +410,9 @@ paths:
         422:
           description: "Error while adding picture to product OR Error while uploading picture"
           example: { status: 422, message: "Error message", data: null }
+        400:
+          description: "Bad"
+          example: { status: 400, message: "Bad request", data: null }
         404:
           description: "Product not found"
           example: { status: 404, message: "Product not found", data: null }
