@@ -403,6 +403,21 @@ paths:
           description: Id of the product
           required: true
           type: string
+        - in: body
+          name: RequestBody
+          required: true
+          schema:
+            type: object
+            required:
+              - ext
+              - base64
+            properties:
+              ext:
+                type: string
+                description: 'Image extension (jpeg, png, etc...)'
+              base64:
+                type: string
+                description: 'Base64 string of the image'
       responses:
         200:
           description: "User Exist"
@@ -411,7 +426,7 @@ paths:
           description: "Error while adding picture to product OR Error while uploading picture"
           example: { status: 422, message: "Error message", data: null }
         400:
-          description: "Bad"
+          description: "Bad request"
           example: { status: 400, message: "Bad request", data: null }
         404:
           description: "Product not found"
