@@ -2,7 +2,7 @@ const { Shop, Product } = require('../models.js')
 
 const j_response      = require('../json_response.js')
 
-module.exports = function(app) {
+module.exports = function(app, firebase_admin) {
   app.get('/shops/:shop_id/products', function(req, res) {
     const order_by    = req.query.orderBy
     const order       = req.query.order || 'asc'
@@ -64,6 +64,33 @@ module.exports = function(app) {
     })
     .catch((err) => {
       res.status(500).send(j_response.generic(500))
+    })
+  })
+
+  app.post('/products/:product_id/pictures', function(req, res) {
+    var product_id = req.params.product_id
+    var bucket = firebase_admin.storage().bucket();
+    var name = `${Math.random().toString(36).substr(2, 20)}`
+    var path = `products/${name}`
+    var new_product = new Product(null, null)
+
+    new_product.get_by('id', product_id).then((doc) => {
+      var product = Product.map(doc[0])
+
+      bucket.upload('assets/img.png', { destination: path }).then((snapshot) => {
+        product.add_picture(path)
+
+        new_product.get_collection().doc(doc[0].doc_id).set(product.prepare()).then((result) => {
+          res.status(200).send(j_response.format(200, 'Picture successfully added to product', product.prepare()))
+        }).catch((err) => {
+          console.log(err)
+          res.status(422).send(j_response.format(422, "Can't update product", null))
+        })
+      }).catch((err) => {
+        res.status(422).send(j_response.format(422, "Can't upload picture", null))
+      })
+    }).catch((err) => {
+        res.status(404).send(j_response.format(404, 'Product not found', null))
     })
   })
 }

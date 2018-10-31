@@ -11,8 +11,9 @@ module.exports = {
     const admin_config = require(this.credentials_path)
 
     return ({
-      credential:   firebase_admin.credential.cert(admin_config),
-      databaseURL:  process.env.FIREBASE_DATABASE_URL
+      credential:     firebase_admin.credential.cert(admin_config),
+      databaseURL:    process.env.FIREBASE_DATABASE_URL,
+      storageBucket:  process.env.FIREBASE_STORAGE_BUCKET
     })
   }
 }

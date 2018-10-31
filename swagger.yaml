@@ -185,7 +185,7 @@ paths:
         400:
           description: "Bad request"
           example: { status: 400, message: "Some error message", data: null }
-  
+
     post:
       tags:
         - Shops
@@ -388,3 +388,28 @@ paths:
         500:
           description: "Some error"
           example: { status: 500, message: "Some error message", data: null }
+  /products/{product_id}/pictures:
+    post:
+      tags:
+        - Products
+      summary: Add a picture to a product
+      description: 'Used to add a picture to a product'
+      operationId: addProductPicture
+      produces:
+        - application/json
+      parameters:
+        - name: product_id
+          in: path
+          description: Id of the product
+          required: true
+          type: string
+      responses:
+        200:
+          description: "User Exist"
+          example: { status: 200, message: "Picture successfully added to product", data: { "id": "tl74u106eo", "name": "Sandwich jambon beurre", "pictures": [ "/url/j/b/beurre", "products/1ctmalvnnjy.jpg", "products/7fha4ysmmpb", "products/gh5zap8ek2b", "products/1wv02wwlpqd" ], "shop_id": "1o3ui7yat4", "stock": "112", "price": "12.87" } }
+        422:
+          description: "Error while adding picture to product OR Error while uploading picture"
+          example: { status: 422, message: "Error message", data: null }
+        404:
+          description: "Product not found"
+          example: { status: 404, message: "Product not found", data: null }

@@ -20,13 +20,13 @@ export class Model {
 
     return new Promise((resolve, reject) => {
       var found_objects = []
- 
+
       collection.where(field, '==', value).get()
       .then((snapshot) => {
         if (snapshot.empty) resolve(null)
 
-        snapshot.forEach(function(doc) {
-          doc.data() ? found_objects.push(doc.data()) : null
+        snapshot.forEach((doc) => {
+          doc.data() ? found_objects.push(this.format_object(doc.id, doc.data())) : null
         })
 
         resolve(found_objects)
@@ -55,5 +55,13 @@ export class Model {
 
       resolve(found_products)
     })
+  }
+
+  format_object(id, datas) {
+    var obj = datas
+
+    obj['doc_id'] = id
+
+    return (obj)
   }
 }
