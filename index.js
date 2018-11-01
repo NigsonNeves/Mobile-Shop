@@ -11,7 +11,7 @@ require('./src/firebase_admin.js').init(firebase_admin)
 require('./src/firebase.js').init(firebase)
 
 // Routes
-require('./src/routes/users.js')(app, firebase)
+require('./src/routes/users.js')(app, firebase, firebase_admin)
 require('./src/routes/sessions.js')(app, firebase)
 require('./src/routes/shops.js')(app, firebase_admin)
 require('./src/routes/orders.js')(app, firebase_admin)
