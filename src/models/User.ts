@@ -8,6 +8,7 @@ class User extends Model {
   private       first_name:   string
   private       name:         string
   private       picture_url:  string
+  private       email:        string
   private       role:         UserRole
 
   constructor(uid: string) {
@@ -18,6 +19,7 @@ class User extends Model {
     this.first_name   = null
     this.name         = null
     this.picture_url  = null
+    this.email        = null
     this.role         = UserRole.customer
   }
 
@@ -42,6 +44,7 @@ class User extends Model {
       first_name:   this.first_name,
       name:         this.name,
       picture_url:  this.picture_url,
+      email:        this.email,
       role:         this.role
     })
   }
@@ -50,6 +53,7 @@ class User extends Model {
   get_first_name()   { return this.first_name }
   get_name()         { return this.name }
   get_picture_url()  { return this.picture_url }
+  get_email()        { return this.email }
   get_role()         { return this.role }
 
   set_uid(uid: string)         { this.uid = uid }
@@ -57,6 +61,7 @@ class User extends Model {
   set_first_name(first_name)   { this.first_name = first_name }
   set_name(name)               { this.name = name }
   set_picture_url(picture_url) { this.picture_url = picture_url }
+  set_email(email)             { this.email = email }
 }
 
 module.exports = User;
