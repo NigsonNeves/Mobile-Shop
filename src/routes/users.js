@@ -56,13 +56,9 @@ module.exports = function(app, firebase) {
     const name        = req.body.name
     const picture_url = req.body.picture_url
     const email       = req.body.email
-<<<<<<< HEAD
     const password    = req.body.password
     const id_user     = req.params.user_id
     const authData    = {}
-=======
-    const id_user     = req.params.user_id
->>>>>>> c16a05eeeb005804b02d605bca71422f71456455
     const new_user    = new User(null)
     var query         = new_user.get_collection()
 
