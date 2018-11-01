@@ -79,11 +79,11 @@ module.exports = function(app, firebase) {
         new_user.set_uid(userUid)
         
         admin.auth().updateUser(userUid,authData).then(function(user) {
+          query.doc(docs[1]).update(new_user.prepare());
           res.status(200).send(j_response.format(200, 'User successfully updated', [{auth: user.toJSON(), user: new_user.prepare()}]))
           }).catch(function(error) {
             console.log("Error updating user:", error);
           });
-        query.doc(docs[1]).update(new_user.prepare());
       }
     }).catch((err) => {
       console.log(err)
