@@ -56,12 +56,12 @@ class User extends Model {
   get_email()        { return this.email }
   get_role()         { return this.role }
 
-  set_uid(uid: string)         { this.uid = uid }
-  set_role(role: UserRole)     { this.role = role }
-  set_first_name(first_name)   { this.first_name = first_name }
-  set_name(name)               { this.name = name }
-  set_picture_url(picture_url) { this.picture_url = picture_url }
-  set_email(email)             { this.email = email }
+  set_uid(uid: string)                  { if (uid != null) this.uid = uid }
+  set_role(role: UserRole)              { if (role != null) this.role = role }
+  set_first_name(first_name: string)    { if (first_name != null) this.first_name = first_name }
+  set_name(name: string)                { if (name != null) this.name = name }
+  set_picture_url(picture_url: string)  { if (picture_url != null) this.picture_url = picture_url }
+  set_email(email: string)              { if (email != null) this.email = email }
 }
 
 module.exports = User;
