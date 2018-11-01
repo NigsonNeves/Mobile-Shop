@@ -2,7 +2,6 @@ const { User } = require('../models.js')
 
 const j_response      = require('../json_response.js')
 const firebase_errors = require('../firebase_error.js')
-const admin = require('firebase-admin');
 
 module.exports = function(app, firebase, firebase_admin) {
   app.get('/users/:user_id', function(req, res) {
@@ -15,7 +14,7 @@ module.exports = function(app, firebase, firebase_admin) {
       if (docs != null) {
         delete docs.uid
         res.status(200).send(j_response.format(200, 'Success', docs))
-      }else{
+      } else {
         res.status(404).send(j_response.format(404, `User ${id_user} not found`, null))
       }
     }).catch(function(err) {
@@ -31,8 +30,7 @@ module.exports = function(app, firebase, firebase_admin) {
 
     if (!email || !passwd) res.status(400).send(j_response.generic(400))
 
-    firebase.auth().createUserWithEmailAndPassword(email, passwd)
-    .then(function(userData) {
+    firebase.auth().createUserWithEmailAndPassword(email, passwd).then(function(userData) {
       var new_user  = new User(userData.user.uid)
 
       new_user.set_email(email)
@@ -41,8 +39,7 @@ module.exports = function(app, firebase, firebase_admin) {
       new_user.get_collection().doc().set(new_user.prepare())
 
       res.status(200).send(j_response.format(200, "Successfully created", { email: email }))
-    })
-    .catch(function(error) {
+    }).catch(function(error) {
       const error_code  = firebase_errors.code(error.code)
       const body        = j_response.format(error_code, error.message, null)
 
@@ -88,6 +85,29 @@ module.exports = function(app, firebase, firebase_admin) {
       }
     }).catch((err) => {
       console.log(err)
+      res.status(500).send(j_response.generic(500))
+    })
+  })
+
+  app.delete('/users/:user_id', function(req, res) {
+    const id_user   = req.params.user_id
+    const new_user  = new User(null)
+
+    new_user.get_by('id', id_user).then((docs) => {
+      if (docs == null) {
+        res.status(404).send(j_response.format(404, `User ${id_user} not found`, null))
+      } else {
+        const user_uid  = docs[0].uid;
+
+        firebase_admin.auth().deleteUser(user_uid).then(function() {
+          new_user.get_collection().doc(docs[1]).delete().then(function() {
+            res.status(200).send(j_response.format(200, `User ${id_user} successfully deleted`, null))
+          })
+        }).catch(function(error) {
+          res.status(500).send(j_response.generic(500))
+        });
+      }
+    }).catch((err) => {
       res.status(500).send(j_response.generic(500))
     })
   })

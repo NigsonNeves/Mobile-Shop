@@ -429,21 +429,6 @@ paths:
           description: Id of the requested user
           required: true
           type: string
-        - name: name
-          in: body
-          description: User name
-          required: true
-          type: string
-        - name: first name
-          in: body
-          description: User first name
-          required: true
-          type: string
-        - name: picture_url
-          in: body
-          description: Picture url
-          required: true
-          type: string
       responses:
         200:
           description: "User Exist"
@@ -495,7 +480,6 @@ paths:
       responses:
         200:
           description: "User Exist"
-<<<<<<< HEAD
           example: { status: 200, message: "Success", data: [ "auth": { "email": "poulet_t@etna-alternance.net"},"user": { "id": "fwes63jrga","uid": "QbZSUqWh5hVIxKdHWTmrOl2iZQt1","first_name": "poulet_t","name": "poulet_t","picture_url": null,"role": 1} ] }
         400:
           description: "Bad request"
@@ -503,7 +487,6 @@ paths:
         404:
           description: "User not found"
           example: { status: 404, message: "User XXXX not found", data: null }
-
     delete:
       tags:
         - Users
@@ -528,19 +511,10 @@ paths:
         404:
           description: "User not found"
           example: { status: 404, message: "User XXXX not found", data: null }
-
-=======
-          example: { status: 200, message: "Success", data: [ { "first_name": "Rachid", "id": "tl74u106eo", "name": "Soussi", "picture_url": "/url/2", "role": "Marchand", "uid": "dsfgjydsfkvj" } ] }
-        404:
-          description: "User not found"
-          example: { status: 404, message: "User XXXX not found", data: null }
-        422:
-          description: "Error updating user"
-          example: { status: 422, message: "Error updating user", data: null }
         500:
           description: "Some error"
           example: { status: 500, message: "Some error message", data: null }
->>>>>>> 47e3a4ecfce6543fe68dedb6e4225ae025f8cfc7
+
   /products/{product_id}/pictures:
     post:
       tags:
