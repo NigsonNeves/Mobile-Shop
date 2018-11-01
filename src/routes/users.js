@@ -69,15 +69,15 @@ module.exports = function(app, firebase) {
         const userUid  = docs[0].uid;
         const userId =  docs[0].id;
 
-        if (first_name) new_user.set_first_name(first_name)
-        if (name) new_user.set_name(name)
-        if (picture_url) new_user.set_picture_url(picture_url)
-        if(email) authData.email = email.toString().trim()
-        if(password) authData.password = password.toString().trim()
+        if (first_name && first_name !="") new_user.set_first_name(first_name)
+        if (name && name !="") new_user.set_name(name)
+        if (picture_url && picture_url !="") new_user.set_picture_url(picture_url)
+        if(email && email !="") authData.email = email.toString().trim()
+        if(password && password !="") authData.password = password.toString().trim()
 
         new_user.set_id(userId)
         new_user.set_uid(userUid)
-        
+
         admin.auth().updateUser(userUid,authData).then(function(user) {
           query.doc(docs[1]).update(new_user.prepare());
           res.status(200).send(j_response.format(200, 'User successfully updated', [{auth: user.toJSON(), user: new_user.prepare()}]))
