@@ -10,6 +10,7 @@ tags:
   - name: Shops
   - name: Products
   - name: Orders
+  - name: Others
 paths:
   /login:
     post:
@@ -185,7 +186,7 @@ paths:
         400:
           description: "Bad request"
           example: { status: 400, message: "Some error message", data: null }
-  
+
     post:
       tags:
         - Shops
@@ -226,6 +227,33 @@ paths:
           example: { status: 400, message: "Some error message", data: null }
 
   /shops/{shop_id}/orders:
+    get:
+      tags:
+        - Orders
+      summary: Get shop orders
+      description: 'Used to get a list of orders passed in a shop'
+      operationId: getShopOrders
+      produces:
+        - application/json
+      parameters:
+        - name: shop_id
+          in: path
+          description: Id of the shop
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Success"
+          example: { status: 200, message: "Success", data: [ { "price": 99.99, "shop": "1o3ui7yat4", "products": [ "uemtuvtcz2" ], "user": "uemtuvtcz1", "id": "1lrxz9rdp7", "doc_id": "FIPhB37WpmXTr6YzxDx1" } ] }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Some error message", data: null }
+        404:
+          description: "Shop not found"
+          example: { status: 404, message: "Shop not found", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
     post:
       tags:
         - Orders
@@ -427,6 +455,114 @@ paths:
         404:
           description: "User not found"
           example: { status: 404, message: "User XXXX not found", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
+  /products/{product_id}/pictures:
+    post:
+      tags:
+        - Products
+      summary: Add a picture to a product
+      description: 'Used to add a picture to a product'
+      operationId: addProductPicture
+      produces:
+        - application/json
+      parameters:
+        - name: product_id
+          in: path
+          description: Id of the product
+          required: true
+          type: string
+        - in: body
+          name: RequestBody
+          required: true
+          schema:
+            type: object
+            required:
+              - ext
+              - base64
+            properties:
+              ext:
+                type: string
+                description: 'Image extension (jpeg, png, etc...)'
+              base64:
+                type: string
+                description: 'Base64 string of the image'
+      responses:
+        200:
+          description: "Picture successfully added to product"
+          example: { status: 200, message: "Picture successfully added to product", data: { "id": "tl74u106eo", "name": "Sandwich jambon beurre", "pictures": [ "/url/j/b/beurre", "products/1ctmalvnnjy.jpg", "products/7fha4ysmmpb", "products/gh5zap8ek2b", "products/1wv02wwlpqd" ], "shop_id": "1o3ui7yat4", "stock": "112", "price": "12.87" } }
+        422:
+          description: "Error while adding picture to product OR Error while uploading picture"
+          example: { status: 422, message: "Error message", data: null }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Bad request", data: null }
+        404:
+          description: "Product not found"
+          example: { status: 404, message: "Product not found", data: null }
+  /shop/{shop_id}/pictures:
+    post:
+      tags:
+        - Shops
+      summary: Add a picture to a shop
+      description: 'Used to add a picture to a shop'
+      operationId: addShopPicture
+      produces:
+        - application/json
+      parameters:
+        - name: shop_id
+          in: path
+          description: Id of the shop
+          required: true
+          type: string
+        - in: body
+          name: RequestBody
+          required: true
+          schema:
+            type: object
+            required:
+              - ext
+              - base64
+            properties:
+              ext:
+                type: string
+                description: 'Image extension (jpeg, png, etc...)'
+              base64:
+                type: string
+                description: 'Base64 string of the image'
+      responses:
+        200:
+          description: "Picture successfully added to shop"
+          example: { status: 200, message: "Picture successfully added to shop", data: { "id": "giwbc129rv", "name": "Boulangerie", "pictures": [ "shops/vkw5zswo1g9.png" ], "latitude": null, "longitude": null, "types": [ "bakery" ] } }
+        422:
+          description: "Error while adding picture to shop OR Error while uploading picture"
+          example: { status: 422, message: "Error message", data: null }
+        400:
+          description: "Bad request"
+          example: { status: 400, message: "Bad request", data: null }
+        404:
+          description: "Shop not found"
+          example: { status: 404, message: "Shop not found", data: null }
+  /pictures:
+    get:
+      tags:
+        - Others
+      summary: Get a picture download url
+      description: 'Used to get a picture download url'
+      operationId: getPictureDownloadUrl
+      produces:
+        - application/json
+      parameters:
+        - name: path
+          in: query
+          description: path of the picture
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Success"
+          example: { status: 200, message: "Success", data: [ "YOUR DOWNLOAD URL HERE" ] }
         500:
           description: "Some error"
           example: { status: 500, message: "Some error message", data: null }

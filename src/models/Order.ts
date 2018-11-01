@@ -3,19 +3,22 @@ import { Product } from './Product'
 
 export class Order extends Model {
   public static collection_name = 'orders'
-  private       user:     string
-  private       shop:     string
-  private       products: Array<string>
-  private       price:    number
+  private       ref:        string
+  private       user:       string
+  private       shop:       string
+  private       products:   Array<string>
+  private       price:      number
 
   constructor(user_id: string, shop_id: string) {
     super()
     super.set_collection(Order.collection_name)
 
-    this.user     = user_id
-    this.shop     = shop_id
-    this.products = []
-    this.price    = 0
+
+    this.ref        = null
+    this.user       = user_id
+    this.shop       = shop_id
+    this.products   = []
+    this.price      = 0
   }
 
   static map(json_datas) {
@@ -42,11 +45,13 @@ export class Order extends Model {
     })
   }
 
+  get_ref()       { return this.ref }
   get_user()      { return this.user }
   get_shop()      { return this.shop }
   get_products()  { return this.products }
   get_price()     { return this.price }
 
+  set_ref(ref: string)                    { this.ref = ref }
   set_user(user: string)                  { this.user =  user }
   set_shop(shop: string)                  { this.shop =  shop }
   set_products(products: Array<string>)   { this.products = products }

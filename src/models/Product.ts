@@ -55,6 +55,8 @@ export class Product extends Model {
   set_shop_id(id: string)               { this.shop_id = id }
   set_stock(stock: number)              { this.stock = stock }
   set_price(price: number)              { this.price = price }
+
+  add_picture(url: string)              { this.pictures.push(url) }
 }
 
 module.exports = Product;

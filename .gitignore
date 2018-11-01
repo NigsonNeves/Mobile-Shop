@@ -29,3 +29,6 @@ firebase_credentials.json
 
 # MacOS
 .DS_Store
+
+# Project
+tmp

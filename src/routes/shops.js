@@ -1,7 +1,7 @@
-const { Shop } = require('../models.js')
-const { ShopType } = require('../enums.js')
-
-const j_response      = require('../json_response.js')
+const { Shop }      = require('../models.js')
+const { ShopType }  = require('../enums.js')
+const fs            = require('fs')
+const j_response    = require('../json_response.js')
 
 module.exports = function(app, firebase_admin) {
   const collection = firebase_admin.firestore().collection(Shop.collection_name)
@@ -43,6 +43,45 @@ module.exports = function(app, firebase_admin) {
       res.status(200).send(j_response.format(200, 'Shop successfully created', new_shop.prepare()))
     }).catch(function(error) {
       res.status(400).send(j_response.generic(400))
+    })
+  })
+
+  app.post('/shops/:shop_id/pictures', function(req, res) {
+    var shop_id     = req.params.shop_id
+    var extension   = req.body.ext
+    var img         = req.body.base64
+    var bucket      = firebase_admin.storage().bucket();
+    var name        = `${Math.random().toString(36).substr(2, 20)}.${extension}`
+    var path        = `shops/${name}`
+    var new_shop    = new Shop(null, null)
+
+    if (!shop_id)     res.status(400).send(j_response.generic(400))
+    if (!img)         res.status(400).send(j_response.generic(400))
+    if (!extension)   res.status(400).send(j_response.generic(400))
+
+    new_shop.get_by('id', shop_id).then((doc) => {
+      var shop = Shop.map(doc[0])
+      var file = bucket.file(path);
+
+      fs.writeFile(`tmp/${name}`, img, { encoding: 'base64' }, function(err) {
+        if (err) {
+          res.status(500).send(j_response.generic(500))
+        } else {
+          bucket.upload(`tmp/${name}`, { destination: path }).then((snapshot) => {
+            shop.add_picture(path)
+
+            new_shop.get_collection().doc(doc[0].doc_id).set(shop.prepare()).then((result) => {
+              res.status(200).send(j_response.format(200, 'Picture successfully added to shop', shop.prepare()))
+            }).catch((err) => {
+              res.status(422).send(j_response.format(422, "Can't update shop", null))
+            })
+          }).catch((err) => {
+            res.status(422).send(j_response.format(422, "Can't upload picture", null))
+          })
+        }
+      })
+    }).catch((err) => {
+        res.status(404).send(j_response.format(404, 'Shop not found', null))
     })
   })
 }
