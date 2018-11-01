@@ -57,7 +57,6 @@ module.exports = function(app, firebase, firebase_admin) {
     const picture_url = req.body.picture_url
     const email       = req.body.email
     const password    = req.body.password
-<<<<<<< HEAD
     const id_user     = req.params.user_id
     const authData    = {}
     const new_user    = new User(null)
@@ -110,44 +109,10 @@ module.exports = function(app, firebase, firebase_admin) {
           }).catch(function(error) {
             console.log("Error updating user:", error);
           });
-=======
-    var new_user      = new User(null)
-    var auth_data     = {}
-
-    new_user.get_by('id', user_id).then((docs) => {
-      if (!docs) {
-        res.status(404).send(j_response.format(404, `User ${user_id} not found`, null))
-      } else {
-        const user_uid = docs[0].uid;
-        new_user = User.map(docs[0])
-
-        new_user.set_first_name(first_name)
-        new_user.set_name(name)
-        new_user.set_picture_url(picture_url)
-
-        if (email) auth_data.email = email.toString().trim()
-        if (password) auth_data.password = password.toString().trim()
-
-        new_user.set_id(user_id)
-        new_user.set_uid(user_uid)
-
-        firebase_admin.auth().updateUser(user_uid,auth_data).then(function(user) {
-          var datas = { auth: user.toJSON(), user: new_user.prepare() }
-          new_user.get_collection().doc(docs[1]).update(new_user.prepare())
-
-          res.status(200).send(j_response.format(200, 'User successfully updated', datas))
-        }).catch(function(error) {
-          res.status(422).send(j_response.format(422, "Error updating user", null))
-        })
->>>>>>> 47e3a4ecfce6543fe68dedb6e4225ae025f8cfc7
       }
     }).catch((err) => {
       console.log(err)
       res.status(500).send(j_response.generic(500))
     })
   })
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> c16a05eeeb005804b02d605bca71422f71456455
