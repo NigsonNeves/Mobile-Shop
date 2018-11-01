@@ -10,6 +10,7 @@ tags:
   - name: Shops
   - name: Products
   - name: Orders
+  - name: Others
 paths:
   /login:
     post:
@@ -501,3 +502,25 @@ paths:
         404:
           description: "Shop not found"
           example: { status: 404, message: "Shop not found", data: null }
+  /pictures:
+    get:
+      tags:
+        - Others
+      summary: Get a picture download url
+      description: 'Used to get a picture download url'
+      operationId: getPictureDownloadUrl
+      produces:
+        - application/json
+      parameters:
+        - name: path
+          in: query
+          description: path of the picture
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Success"
+          example: { status: 200, message: "Success", data: [ "YOUR DOWNLOAD URL HERE" ] }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
