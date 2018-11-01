@@ -1,7 +1,6 @@
 const { Shop, Product } = require('../models.js')
 const fs                = require('fs')
-
-const j_response      = require('../json_response.js')
+const j_response        = require('../json_response.js')
 
 module.exports = function(app, firebase_admin) {
   app.get('/shops/:shop_id/products', function(req, res) {
