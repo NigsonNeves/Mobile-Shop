@@ -15,7 +15,7 @@ module.exports = function(app, firebase, firebase_admin) {
       if (docs != null) {
         delete docs.uid
         res.status(200).send(j_response.format(200, 'Success', docs))
-      }else{
+      } else {
         res.status(404).send(j_response.format(404, `User ${id_user} not found`, null))
       }
     }).catch(function(err) {
@@ -31,8 +31,12 @@ module.exports = function(app, firebase, firebase_admin) {
 
     if (!email || !passwd) res.status(400).send(j_response.generic(400))
 
+<<<<<<< HEAD
     firebase.auth().createUserWithEmailAndPassword(email, passwd)
     .then(function(userData) {
+=======
+    firebase.auth().createUserWithEmailAndPassword(email, passwd).then(function(userData) {
+>>>>>>> da89438c19232cad0a70d991a88cab205b9f2c5b
       var new_user  = new User(userData.user.uid)
 
       new_user.set_email(email)
@@ -41,8 +45,12 @@ module.exports = function(app, firebase, firebase_admin) {
       new_user.get_collection().doc().set(new_user.prepare())
 
       res.status(200).send(j_response.format(200, "Successfully created", { email: email }))
+<<<<<<< HEAD
     })
     .catch(function(error) {
+=======
+    }).catch(function(error) {
+>>>>>>> da89438c19232cad0a70d991a88cab205b9f2c5b
       const error_code  = firebase_errors.code(error.code)
       const body        = j_response.format(error_code, error.message, null)
 
@@ -57,14 +65,56 @@ module.exports = function(app, firebase, firebase_admin) {
     const picture_url = req.body.picture_url
     const email       = req.body.email
     const password    = req.body.password
+<<<<<<< HEAD
     const id_user     = req.params.user_id
     const authData    = {}
     const new_user    = new User(null)
     var query         = new_user.get_collection()
+=======
+    var new_user      = new User(null)
+    var auth_data     = {}
+
+    new_user.get_by('id', user_id).then((docs) => {
+      if (!docs) {
+        res.status(404).send(j_response.format(404, `User ${user_id} not found`, null))
+      } else {
+        const user_uid = docs[0].uid;
+        new_user = User.map(docs[0])
+
+        new_user.set_first_name(first_name)
+        new_user.set_name(name)
+        new_user.set_picture_url(picture_url)
+
+        if (email) auth_data.email = email.toString().trim()
+        if (password) auth_data.password = password.toString().trim()
+
+        new_user.set_id(user_id)
+        new_user.set_uid(user_uid)
+
+        firebase_admin.auth().updateUser(user_uid,auth_data).then(function(user) {
+          var datas = { auth: user.toJSON(), user: new_user.prepare() }
+          new_user.get_collection().doc(docs[1]).update(new_user.prepare())
+
+          res.status(200).send(j_response.format(200, 'User successfully updated', datas))
+        }).catch(function(error) {
+          res.status(422).send(j_response.format(422, "Error updating user", null))
+        })
+      }
+    }).catch((err) => {
+      console.log(err)
+      res.status(500).send(j_response.generic(500))
+    })
+  })
+
+  app.delete('/users/:user_id', function(req, res) {
+    const id_user   = req.params.user_id
+    const new_user  = new User(null)
+>>>>>>> da89438c19232cad0a70d991a88cab205b9f2c5b
 
     new_user.get_by('id', id_user).then((docs) => {
       if (docs == null) {
         res.status(404).send(j_response.format(404, `User ${id_user} not found`, null))
+<<<<<<< HEAD
       }else{
         const userUid  = docs[0].uid;
         const userId =  docs[0].id;
@@ -109,9 +159,20 @@ module.exports = function(app, firebase, firebase_admin) {
           }).catch(function(error) {
             console.log("Error updating user:", error);
           });
+=======
+      } else {
+        const user_uid  = docs[0].uid;
+
+        firebase_admin.auth().deleteUser(user_uid).then(function() {
+          new_user.get_collection().doc(docs[1]).delete().then(function() {
+            res.status(200).send(j_response.format(200, `User ${id_user} successfully deleted`, null))
+          })
+        }).catch(function(error) {
+          res.status(500).send(j_response.generic(500))
+        });
+>>>>>>> da89438c19232cad0a70d991a88cab205b9f2c5b
       }
     }).catch((err) => {
-      console.log(err)
       res.status(500).send(j_response.generic(500))
     })
   })
