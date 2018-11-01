@@ -79,11 +79,36 @@ module.exports = function(app, firebase) {
         new_user.set_uid(userUid)
         
         admin.auth().updateUser(userUid,authData).then(function(user) {
+          query.doc(docs[1]).update(new_user.prepare());
           res.status(200).send(j_response.format(200, 'User successfully updated', [{auth: user.toJSON(), user: new_user.prepare()}]))
           }).catch(function(error) {
             console.log("Error updating user:", error);
           });
-        query.doc(docs[1]).update(new_user.prepare());
+      }
+    }).catch((err) => {
+      console.log(err)
+      res.status(500).send(j_response.generic(500))
+    })
+  })
+
+  app.delete('/users/:user_id', function(req, res) {
+    const id_user     = req.params.user_id
+    const new_user    = new User(null)
+    var query         = new_user.get_collection()
+
+    new_user.get_by('id', id_user).then((docs) => {
+      if (docs == null) {
+        res.status(404).send(j_response.format(404, `User ${id_user} not found`, null))
+      }else{
+        const userUid  = docs[0].uid;
+
+        admin.auth().deleteUser(userUid).then(function() {
+          query.doc(docs[1]).delete().then(function() {
+            res.status(200).send(j_response.format(200, `User ${id_user} successfully deleted`, null))
+          })
+          }).catch(function(error) {
+            console.log("Error updating user:", error);
+          });
       }
     }).catch((err) => {
       console.log(err)
