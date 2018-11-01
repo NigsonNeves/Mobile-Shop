@@ -1,9 +1,11 @@
 import { Model } from './Model'
 import { Product } from './Product'
+import { OrderStatus } from '../enums/OrderStatus'
 
 export class Order extends Model {
   public static collection_name = 'orders'
   private       ref:        string
+  private       status:     OrderStatus
   private       user:       string
   private       shop:       string
   private       products:   Array<string>
@@ -14,7 +16,8 @@ export class Order extends Model {
     super.set_collection(Order.collection_name)
 
 
-    this.ref        = null
+    this.ref        = Math.random().toString(36).substr(2, 10).toUpperCase()
+    this.status     = null
     this.user       = user_id
     this.shop       = shop_id
     this.products   = []
@@ -38,6 +41,8 @@ export class Order extends Model {
   prepare() {
     return ({
       id:       super.get_id(),
+      ref:      this.ref,
+      status:   this.status,
       user:     this.user,
       shop:     this.shop,
       products: this.products,
@@ -46,12 +51,14 @@ export class Order extends Model {
   }
 
   get_ref()       { return this.ref }
+  get_status()    { return this.status }
   get_user()      { return this.user }
   get_shop()      { return this.shop }
   get_products()  { return this.products }
   get_price()     { return this.price }
 
   set_ref(ref: string)                    { this.ref = ref }
+  set_status(status: OrderStatus)         { this.status = status }
   set_user(user: string)                  { this.user =  user }
   set_shop(shop: string)                  { this.shop =  shop }
   set_products(products: Array<string>)   { this.products = products }

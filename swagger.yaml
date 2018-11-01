@@ -78,7 +78,32 @@ paths:
         500:
           description: "Some error"
           example: { status: 500, message: "Some error", data: null }
-
+    patch:
+      tags:
+        - Orders
+      summary: Update an order
+      description: 'Used to update an order'
+      operationId: editOrder
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: Id of the order
+          required: true
+          type: string
+        - name: status
+          in: body
+          required: true
+          type: number
+          example: "Use one of these values :\n 0 for created  \n 1 for validated \n 2 for processing \n 3 for finished"
+      responses:
+        200:
+          description: "Picture successfully added to shop"
+          example: { status: 200, message: "Success", data: { "id": "x31c6o5m2a", "ref": "IEPQ096UY4", "status": "1", "user": "fwes63jrga", "shop": "1o3ui7yat4", "products": [ "tl74u106eo" ], "price": "12.87" } }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error", data: null }
   /users/new:
     post:
       tags:
@@ -419,6 +444,33 @@ paths:
           description: Picture url
           required: true
           type: string
+<<<<<<< HEAD
+=======
+      responses:
+        200:
+          description: "User Exist"
+          example: { status: 200, message: "User successfully updated", data: [ { "first_name": "Rachid", "id": "tl74u106eo", "name": "Soussi", "picture_url": "/url/2", "role": "Marchand", "uid": "dsfgjydsfkvj" } ] }
+        404:
+          description: "User not found"
+          example: { status: 404, message: "User XXXX not found", data: null }
+        500:
+          description: "Some error"
+          example: { status: 500, message: "Some error message", data: null }
+    patch:
+      tags:
+        - Users
+      summary: Update a user thanks to his Id
+      description: 'Used to update a user'
+      operationId: updateUser
+      produces:
+        - application/json
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of the requested user
+          required: true
+          type: string
+>>>>>>> c16a05eeeb005804b02d605bca71422f71456455
       responses:
         200:
           description: "User Exist"
