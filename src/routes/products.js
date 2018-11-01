@@ -24,8 +24,9 @@ module.exports = function(app, firebase_admin) {
       query.where('shop_id', '==', shop_id).get().then(function(snapshot) {
         if (!snapshot.empty) {
           snapshot.forEach((doc) => { datas.push(doc.data()) })
-          res.status(200).send(j_response.format(200, 'Success', datas))
         }
+
+        res.status(200).send(j_response.format(200, 'Success', datas))
       }).catch(function(err) {
         res.status(500).send(j_response.generic(500))
       })
