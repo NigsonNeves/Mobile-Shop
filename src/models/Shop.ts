@@ -4,7 +4,7 @@ import { ShopType } from '../enums/ShopType'
 class Shop extends Model {
   public static collection_name = 'shops'
   private       name:         string
-  private       picture_url:  string
+  private       pictures:     Array<string>
   private       latitude:     number
   private       longitude:    number
   private       types:        Array<ShopType>
@@ -14,7 +14,7 @@ class Shop extends Model {
     super.set_collection(Shop.collection_name)
 
     this.name         = name
-    this.picture_url  = null
+    this.pictures     = []
     this.latitude     = null
     this.longitude    = null
     this.types        = types
@@ -38,7 +38,7 @@ class Shop extends Model {
     return ({
       id:           super.get_id(),
       name:         this.name,
-      picture_url:  this.picture_url,
+      pictures:     this.pictures,
       latitude:     this.latitude,
       longitude:    this.longitude,
       types:        this.types
@@ -46,18 +46,20 @@ class Shop extends Model {
   }
 
   get_name()        { return this.name }
-  get_picture_url() { return this.picture_url }
+  get_pictures()    { return this.pictures }
   get_latitude()    { return this.latitude }
   get_longitude()   { return this.longitude }
   get_types()       { return this.types }
 
   set_name(name: string)                    { this.name = name }
-  set_picture_url(url: string)              { this.picture_url = url }
+  set_pictures(pictures: Array<string>)     { this.pictures = pictures }
   set_types(types: Array<ShopType>)         { this.types = types }
   set_position(latitude: number, longitude: number) {
     this.latitude  = latitude
     this.longitude = longitude
   }
+
+  add_picture(url: string)                  { this.pictures.push(url) }
 }
 
 module.exports = ShopType;

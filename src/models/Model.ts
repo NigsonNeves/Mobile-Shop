@@ -21,8 +21,7 @@ export class Model {
     return new Promise((resolve, reject) => {
       var found_objects = []
 
-      collection.where(field, '==', value).get()
-      .then((snapshot) => {
+      collection.where(field, '==', value).get().then((snapshot) => {
         if (snapshot.empty) resolve(null)
 
         snapshot.forEach((doc) => {
@@ -30,8 +29,7 @@ export class Model {
         })
 
         resolve(found_objects)
-      })
-      .catch((err) => {
+      }).catch((err) => {
         reject(err)
       })
     })
