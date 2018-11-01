@@ -2,6 +2,7 @@ const { User } = require('../models.js')
 
 const j_response      = require('../json_response.js')
 const firebase_errors = require('../firebase_error.js')
+const admin = require('firebase-admin');
 
 module.exports = function(app, firebase, firebase_admin) {
   app.get('/users/:user_id', function(req, res) {
