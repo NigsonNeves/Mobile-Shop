@@ -45,14 +45,14 @@ module.exports = function(app, firebase_admin) {
     const new_shop  = new Shop(null, null)
     var new_product = new Product(name, shop_id)
 
-    if (!name || !pictures || !stock || !price)
+    if (!name || !stock || !price)
       res.status(400).send(j_response.generic(400))
 
     new_shop.get_by('id', shop_id).then((doc) => {
       if (doc == null) {
         res.status(404).send(j_response.format(404, 'Shop not found', null))
       } else {
-        new_product.set_pictures([pictures])
+        if (pictures) new_product.set_pictures([pictures])
         new_product.set_stock(stock)
         new_product.set_price(price)
         new_product.get_collection().doc().set(new_product.prepare())
@@ -98,6 +98,7 @@ module.exports = function(app, firebase_admin) {
               res.status(422).send(j_response.format(422, "Can't update product", null))
             })
           }).catch((err) => {
+	    console.log(err)
             res.status(422).send(j_response.format(422, "Can't upload picture", null))
           })
         }

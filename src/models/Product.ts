@@ -13,7 +13,7 @@ export class Product extends Model {
     super.set_collection(Product.collection_name)
 
     this.name = name
-    this.pictures = null
+    this.pictures = []
     this.shop_id = shop_id
     this.stock = 0
     this.price = null
