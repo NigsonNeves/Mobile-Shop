@@ -50,11 +50,11 @@ export class Product extends Model {
   get_stock()     { return this.stock }
   get_price()     { return this.price }
 
-  set_name(name: string)                { this.name = name }
-  set_pictures(pictures: Array<string>) { this.pictures = pictures }
-  set_shop_id(id: string)               { this.shop_id = id }
-  set_stock(stock: number)              { this.stock = stock }
-  set_price(price: number)              { this.price = price }
+  set_name(name: string)                { if (name != null) this.name = name }
+  set_pictures(pictures: Array<string>) { if (pictures != null) this.pictures = pictures }
+  set_shop_id(id: string)               { if (id != null) this.shop_id = id }
+  set_stock(stock: number)              { if (stock != null) this.stock = stock }
+  set_price(price: number)              { if (price != null) this.price = price }
 
   add_picture(url: string)              { this.pictures.push(url) }
 }

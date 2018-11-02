@@ -105,4 +105,33 @@ module.exports = function(app, firebase_admin) {
         res.status(404).send(j_response.format(404, 'Product not found', null))
     })
   })
+
+  app.patch('/products/:product_id', function(req, res) {
+    var product_id  = req.params.product_id
+    var name        = req.body.name
+    var price       = req.body.price
+    var stock       = req.body.stock
+    var new_product = new Product(null, null)
+
+    if (!product_id) res.status(400).send(j_response.generic(400))
+
+    new_product.get_by('id', product_id).then((doc) => {
+      new_product = Product.map(doc[0])
+
+      if(stock)new_product.set_stock(stock)
+      if(price)new_product.set_price(price)
+      if(name)new_product.set_name(name)
+
+      new_product.set_id(product_id)
+      new_product.set_shop_id(doc[0].shop_id)
+      new_product.get_collection().doc(doc[1]).update(new_product.prepare()).then(function(doc) {
+        res.status(200).send(j_response.format(200, 'Product successfully updated', new_product.prepare()))
+      }).catch(function(error) {
+        res.status(500).send(j_response.generic(500))
+      })
+    }).catch((err) => {
+      console.log(err)
+        res.status(404).send(j_response.format(404, 'Product '+product_id+' not found', null))
+    })
+  })
 }
